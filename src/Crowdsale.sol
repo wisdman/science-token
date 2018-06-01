@@ -16,6 +16,9 @@ contract Crowdsale is Ownable {
   // How many token units a buyer gets per wei
   uint256 public rate;
 
+  // Minimum wei
+  uint256 public weiMinimum;
+
   // Amount of wei raised
   uint256 public weiRaised;
 
@@ -39,11 +42,12 @@ contract Crowdsale is Ownable {
    * @param _token Address of the token being sold
    * @param _rate Number of token units a buyer gets per wei
    */
-  constructor(ERC20 _token, uint256 _rate) public {
+  constructor(ERC20 _token, uint256 _rate, uint256 _minimum) public {
     require(_token != address(0));
     require(_rate > 0);
     token = _token;
     rate = _rate;
+    weiMinimum = _minimum;
   }
 
   /**
@@ -58,6 +62,7 @@ contract Crowdsale is Ownable {
 
     require(beneficiary != address(0));
     require(weiAmount != 0);
+    require(weiAmount > weiMinimum);
 
     uint256 tokens = weiAmount.mul(rate);
     uint256 balance = token.balanceOf(self);
@@ -78,6 +83,21 @@ contract Crowdsale is Ownable {
 
     // update state
     weiRaised = weiRaised.add(weiAmount);
+  }
+
+  /**
+   * Set new rate
+   */
+  function setRate(uint256 _rate) onlyOwner public {
+    require(_rate > 0);
+    rate = _rate;
+  }
+
+  /**
+   * Set new minimum
+   */
+  function setMinimum(uint256 _minimum) onlyOwner public {
+    weiMinimum = _minimum;
   }
 
   /**
