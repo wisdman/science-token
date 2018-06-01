@@ -49,7 +49,7 @@ contract Crowdsale is Ownable {
     require(_minimum >= 0);
     token = _token;
     price = _price;
-    weiMinimum = _minimum;
+    weiMinimum = _minimum * (10 ** 18);
   }
 
   /**
@@ -63,7 +63,7 @@ contract Crowdsale is Ownable {
 
     require(beneficiary != address(0));
     require(weiAmount != 0);
-    require(weiAmount > weiMinimum);
+    require(weiAmount >= weiMinimum);
 
     uint256 tokens = weiAmount.div(price);
     uint256 selfBalance = balance();
@@ -111,7 +111,7 @@ contract Crowdsale is Ownable {
    */
   function setMinimum(uint256 _minimum) onlyOwner public {
     require(_minimum >= 0);
-    weiMinimum = _minimum;
+    weiMinimum = _minimum * (10 ** 18);
   }
 
   /**
