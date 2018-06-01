@@ -1,7 +1,49 @@
 ;(function() {
   const ADDRESS_RX = /^0x[a-f0-9]{40}$/i
 
-  class STPaymet {
+  const FUNCTIONS = {
+    b69ef8a8: "balance",
+    "8d4e4083": "isFinalized",
+    a035b1fe: "price",
+    fc0c546a: "token",
+    b7dc2a9f: "weiMinimum",
+    "4042b66f": "weiRaised",
+  }
+
+  const URL = (contract, data) => {
+    return `https://api-ropsten.etherscan.io/api?module=proxy&action=eth_call&to=${contract}&data=${data}`
+  }
+
+  class STCrowdsale {
+    static HEX2DEC(s) {
+      function add(x, y) {
+        let c = 0
+        let r = []
+        x = x.split("").map(Number)
+        y = y.split("").map(Number)
+        while (x.length || y.length) {
+          let s = (x.pop() || 0) + (y.pop() || 0) + c
+          r.unshift(s < 10 ? s : s - 10)
+          c = s < 10 ? 0 : 1
+        }
+        if (c) {
+          r.unshift(c)
+        }
+        return r.join("")
+      }
+
+      let dec = "0"
+      s.split("").forEach((chr) => {
+        let n = parseInt(chr, 16)
+        for (let t = 8; t; t >>= 1) {
+          dec = add(dec, dec)
+          if (n & t) dec = add(dec, "1")
+        }
+      })
+
+      return dec
+    }
+
     constructor(contract) {
       if (typeof contract !== "string" || !ADDRESS_RX.test(contract)) {
         throw new TypeError("Incorrect Ethereum Address")
@@ -18,6 +60,14 @@
         document.addEventListener("readystatechange", readyHandler)
         readyHandler()
       })
+
+      for (let key in FUNCTIONS) {
+        this[FUNCTIONS[key]] = () => {
+          return fetch(URL(this._contract, key))
+            .then((value) => value.json())
+            .then((value) => value.result)
+        }
+      }
     }
 
     async asyncInit() {
@@ -88,5 +138,5 @@
     }
   }
 
-  window.STPaymet = STPaymet
+  window.STCrowdsale = STCrowdsale
 })()

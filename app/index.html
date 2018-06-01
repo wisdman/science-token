@@ -4,29 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <title>Science Token Crowdsale Form</title>
-  <script type="text/javascript" src="st-payment.js"></script>
+  <script type="text/javascript" src="st-crowdsale.js"></script>
 </head>
 <body>
   <form id="PaymentForm">
     <input type="number" name="eth" value="0" placeholder="Eth value">
     <input type="submit" value="Pay">
   </form>
+  <form id="InfoForm">
+    <label>
+      <span>weiRaised: </span>
+      <input type="text" name="eth" value="" disabled>
+    </label>
+    <input type="submit" value="Get">
+  </form>
   <script type="text/javascript">
-    (function (form) {
+    (function (paymentForm, infoForm) {
 
+      const stCrowdsale = new STCrowdsale('0xFb7CaA4D7C26DF4D933d4F2adBBe6b03eD1D04b5')
 
-      const stPayment = new STPaymet('0x033dd16452cdb450d8c5ceeadae92d057625b1f6')
-
-      stPayment.checkProvider()
+      stCrowdsale.checkProvider()
       .then( () => {
 
         console.log('Use metamask')
 
         // Add payment form
-        form.addEventListener('submit', event => {
+        paymentForm.addEventListener('submit', event => {
           event.preventDefault()
 
-          stPayment.payment(form.elements.eth.value)
+          stCrowdsale.payment(paymentForm.elements.eth.value)
           .then( () => {
             console.log('Payment sucessful')
           })
@@ -46,7 +52,17 @@
       })
 
 
-    })(document.getElementById('PaymentForm'))
+      infoForm.addEventListener('submit', event => {
+        event.preventDefault()
+
+        stCrowdsale.weiRaised()
+        .then( (value) => {
+          const dec = STCrowdsale.HEX2DEC(value) / (10**18)
+          console.log(value, dec)
+        })
+      })
+
+    })(document.getElementById('PaymentForm'), document.getElementById('InfoForm'))
   </script>
 </body>
 </html>
