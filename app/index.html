@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Science Token Crowdsale Form</title>
+  <script type="text/javascript" src="st-payment.js"></script>
+</head>
+<body>
+  <form id="PaymentForm">
+    <input type="number" name="eth" value="0" placeholder="Eth value">
+    <input type="submit" value="Pay">
+  </form>
+  <script type="text/javascript">
+    (function (form) {
+
+
+      const stPayment = new STPaymet('0x033dd16452cdb450d8c5ceeadae92d057625b1f6')
+
+      stPayment.checkProvider()
+      .then( () => {
+
+        console.log('Use metamask')
+
+        // Add payment form
+        form.addEventListener('submit', event => {
+          event.preventDefault()
+
+          stPayment.payment(form.elements.eth.value)
+          .then( () => {
+            console.log('Payment sucessful')
+          })
+          .catch( error => {
+            console.error(error)
+            console.log('Payment error')
+          })
+        })
+
+
+      })
+      .catch( error => {
+
+        // Show alternative methods
+        console.error(error)
+        console.log('Use alternate')
+      })
+
+
+    })(document.getElementById('PaymentForm'))
+  </script>
+</body>
+</html>

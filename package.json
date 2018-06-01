@@ -15,9 +15,11 @@
   "bugs": "https://github.com/wisdman/science-token/issues",
   "scripts": {
     "remix": "remixd -s ./src",
+    "start": "browser-sync start --config 'browser-sync.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "browser-sync": "^2.24.4",
     "remixd": "^0.1.8-alpha.4"
   }
 }
