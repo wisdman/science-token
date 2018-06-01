@@ -107,6 +107,14 @@
       return true
     }
 
+    get from() {
+      return this.web3.eth.coinbase
+    }
+
+    get to() {
+      return this._contract
+    }
+
     async payment(amount) {
       await this.asyncInit()
       await this.checkProvider()
