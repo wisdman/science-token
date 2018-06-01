@@ -1,6 +1,6 @@
 # Science Token (ST)
 
-[International science hub (ISH)](http://ish.earth/) Science Token (ST) smart contract and Crowdsale smart contract.
+[International Science Hub (ISH)](https://ish.earth/) - Science Token (ST) smart contract and Crowdsale smart contract.
 
 #### Based on
 
