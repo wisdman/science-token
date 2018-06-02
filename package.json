@@ -2,9 +2,7 @@
   "name": "science-token",
   "version": "0.1.0",
   "author": "Dmitriy Poliakov aka Wisdman <wisdman@ajaw.it> (https://github.com/wisdman)",
-  "contributors": [
-    "Dmitriy Poliakov aka Wisdman <wisdman@ajaw.it> (https://github.com/wisdman)"
-  ],
+  "contributors": ["Dmitriy Poliakov aka Wisdman <wisdman@ajaw.it> (https://github.com/wisdman)"],
   "license": "UNLICENSED",
   "private": true,
   "repository": {
@@ -14,12 +12,14 @@
   "homepage": "https://github.com/wisdman/science-token",
   "bugs": "https://github.com/wisdman/science-token/issues",
   "scripts": {
+    "build": "google-closure-compiler-js app/st-crowdsale.js > app/st-crowdsale.min.js",
     "remix": "remixd -s ./src",
     "start": "browser-sync start --config 'browser-sync.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "browser-sync": "^2.24.4",
+    "google-closure-compiler-js": "^20180506.0.0",
     "remixd": "^0.1.8-alpha.4"
   }
 }

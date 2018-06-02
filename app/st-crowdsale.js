@@ -11,7 +11,7 @@
   }
 
   const URL = (contract, data) => {
-    return `https://api-ropsten.etherscan.io/api?module=proxy&action=eth_call&to=${contract}&data=${data}`
+    return `https://api.etherscan.io/api?module=proxy&action=eth_call&to=${contract}&data=${data}`
   }
 
   class STCrowdsale {
