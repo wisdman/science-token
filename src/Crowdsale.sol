@@ -16,9 +16,6 @@ contract Crowdsale is Ownable {
   // How many wei units a buyer gets per token
   uint256 public price;
 
-  // Minimum wei
-  uint256 public weiMinimum;
-
   // Amount of wei raised
   uint256 public weiRaised;
 
@@ -41,15 +38,12 @@ contract Crowdsale is Ownable {
   /**
    * @param _token Address of the token being sold
    * @param _price How many wei units a buyer gets per token
-   * @param _minimum Minimal wei per transaction
    */
-  constructor(ERC20 _token, uint256 _price, uint256 _minimum) public {
+  constructor(ERC20 _token, uint256 _price) public {
     require(_token != address(0));
     require(_price > 0);
-    require(_minimum >= 0);
     token = _token;
     price = _price;
-    weiMinimum = _minimum * (10 ** 18);
   }
 
   /**
@@ -63,7 +57,6 @@ contract Crowdsale is Ownable {
 
     require(beneficiary != address(0));
     require(weiAmount != 0);
-    require(weiAmount >= weiMinimum);
 
     uint256 tokens = weiAmount.div(price);
     uint256 selfBalance = balance();
@@ -103,15 +96,6 @@ contract Crowdsale is Ownable {
   function setPrice(uint256 _price) onlyOwner public {
     require(_price > 0);
     price = _price;
-  }
-
-  /**
-   * Set new minimum
-   * @param _minimum Minimal wei per transaction
-   */
-  function setMinimum(uint256 _minimum) onlyOwner public {
-    require(_minimum >= 0);
-    weiMinimum = _minimum * (10 ** 18);
   }
 
   /**
